@@ -282,10 +282,10 @@ bool experiment_dir_negative_weight(string file_name, UI iterations, UI step, UI
 void all_experiments() {
 
     experiment_dijk_bellman_astar_undir("../data/d_b_a_undir.csv", 10, 50, 3);
-//    experiment_dijk_bellman_dir("../data/d_b_dir.csv", 10, 50, 3);
-//    experiment_undir_unweight("../data/undir_unweight.csv", 10, 50, 3);
-//    experiment_undir_weight("../data/undir_weight.csv", 10, 50, 3);
-//    experiment_dir_negative_weight("../data/dir_negative_weight.csv", 10, 50, 3);
+    experiment_dijk_bellman_dir("../data/d_b_dir.csv", 10, 50, 3);
+    experiment_undir_unweight("../data/undir_unweight.csv", 10, 50, 3);
+    experiment_undir_weight("../data/undir_weight.csv", 10, 50, 3);
+    experiment_dir_negative_weight("../data/dir_negative_weight.csv", 10, 50, 3);
 
 }
 
