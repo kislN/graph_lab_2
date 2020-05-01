@@ -1,16 +1,19 @@
-//
-// Created by Anastasiia Kislitsyna on 3/25/20.
-//
-
 #ifndef GRAPH_LAB_2_JOHNSON_H
 #define GRAPH_LAB_2_JOHNSON_H
 
 bool johnson(Graph& G, vector<vector<int>>& s_paths){
+
     vector<vector<ADJ_VERTEX>> adj = G.get_adj_list();
     vector<EDGE> edges = G.get_edges_list();
     UI N = G.get_graph_size();
     UI M = G.get_edges_num();
     UI dir = G.get_direct();
+    vector<vector<int>> d(N, vector<int>(N, INF));
+    vector<int> s_path;
+
+    for (size_t i = 0; i < N; ++i){
+        d[i][i] = 0;
+    }
 
     adj.push_back(vector<ADJ_VERTEX>());
     for (UI i = 0; i < N; ++i){
@@ -18,22 +21,9 @@ bool johnson(Graph& G, vector<vector<int>>& s_paths){
         edges.push_back(EDGE{N, i, 0});
     }
 
-    vector<vector<int>> d(N, vector<int>(N, INF));
-
-    for (UI i = 0; i < N; ++i){
-        d[i][i] = 0;
-    }
-
-//    for (UI i = 0; i < N; ++i){
-//        for (UI j = 0; j < adj[i].size() ;++j){
-//            d[i][adj[i][j].vertex] = adj[i][j].weight;
-//        }
-//    }
-
-    vector<int> s_path;
     if (bellman_ford_algo(edges, N+1, M+N, N, s_path, dir)){
-        for (UI i = 0; i < N; ++i){
-            for (UI j = 0; j < adj[i].size(); ++j){
+        for (size_t i = 0; i < N; ++i){
+            for (size_t j = 0; j < adj[i].size(); ++j){
                 adj[i][j].weight += s_path[i] - s_path[adj[i][j].vertex];
             }
         }

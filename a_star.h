@@ -1,121 +1,90 @@
-//
-// Created by Anastasiia Kislitsyna on 4/19/20.
-//
-
 #ifndef GRAPH_LAB_2_A_STAR_H
 #define GRAPH_LAB_2_A_STAR_H
 
+UI a_star_algo(vector<vector<ADJ_VERTEX>>& adj,
+               Eigen::Matrix<UI, Eigen::Dynamic, Eigen::Dynamic>& h,
+                const UI& N,
+                UI start_vert,
+                UI goal_vert)
+{
+    std::vector<UI> closed(N, 0),
+                    opened{start_vert},
+                    g(N),
+                    f(N, INF),
+                    parent(N, INF);
+    std::vector<pair<bool, UI>> opened_indexes(N, make_pair(0, 0));
 
-
-bool a_star_algo(vector<vector<ADJ_VERTEX>>& adj, boost::numeric::ublas::matrix<UI>& h, const UI N, UI start_vert, UI goal_vert) {
-    std::vector<UI> U(N, 0);
-    std::vector<UI> Q{start_vert};
-    std::vector<pair<bool, UI>> Qu(N, make_pair(0, 0));
-    std::vector<UI> g(N);
-    std::vector<UI> f(N, INF);
-    std::vector<UI> parent(N, INF);
-
-    Qu[start_vert] = make_pair(1, Q.size()-1);
-
+    opened_indexes[start_vert] = make_pair(1, opened.size() - 1);
     g[start_vert] = 0;
     f[start_vert] = g[start_vert] + h(start_vert, goal_vert);
 
-
-    while (Q.size()){
-        UI current = Q[0];
-        for (size_t i = 1; i < Q.size(); ++i){
-            if (f[Q[i]] < f[current]){
-                current = Q[i];
+    while (opened.size()){
+        UI current = opened[0];
+        for (size_t i = 1; i < opened.size(); ++i){
+            if (f[opened[i]] < f[current]){
+                current = opened[i];
             }
         }
 
         if (current == goal_vert) {
             std::vector<UI> path;
             path.push_back(current);
-            cout << g[current] << endl;
-            while(current != start_vert){
-                path.push_back(parent[current]);
-                current = parent[current];
-            }
+            return g[current];
+//            while(current != start_vert){
+//                path.push_back(parent[current]);
+//                current = parent[current];
+//            }
 
-            std::copy(path.begin(), path.end(), std::ostream_iterator<UI>(std::cout," "));
-
-            return 1;
         }
 
-        Q.erase (Q.begin() + Qu[current].second);
-        Qu[current].first = 0;
-        for (size_t i = 0; i < Q.size(); ++i){
-            UI ind = Qu[current].second;
-            if (Qu[Q[i]].second > ind) {
-                Qu[Q[i]].second--;
+        opened.erase (opened.begin() + opened_indexes[current].second);
+        opened_indexes[current].first = 0;
+        UI ind = opened_indexes[current].second;
+        for (size_t i = 0; i < opened.size(); ++i){
+            if (opened_indexes[opened[i]].second > ind) {
+                opened_indexes[opened[i]].second--;
             }
         }
-        U[current] = 1;
-
-//        for (size_t i = 0; i < adj[current].size(); ++i){
-//            UI v = adj[current][i].vertex;
-//            int tent = g[current] + adj[current][i].weight;
-//            if ((U[v]) and (tent >= g[v])){
-//                continue;
-//            }
-//            else{
-//                parent[v] = current;
-//                g[v] = tent;
-//                f[v] = g[v] + h(v, goal_vert);
-//
-//                if (!Qu[v]) {
-//                    Q.push_back(v);
-//                    Qu[v] = 1;
-//                }
-//
-//            }
-//        }
+        closed[current] = 1;
 
         for (size_t i = 0; i < adj[current].size(); ++i){
 
             UI v = adj[current][i].vertex;
-            if (U[v]) continue;
+            if (closed[v]) continue;
 
             int tent = g[current] + adj[current][i].weight;
 
-//            if ((Qu[v].first) and (tent < g[v])){
-//                cout << "here1" << endl;
-//                Q.erase (Q.begin() + Qu[v].second);
-//                Qu[v].first = 0;
-//                continue;
-//            }
-//
-//            if ((U[v]) and (tent < g[v])){
-////                cout << "here2" << endl;
-////                U[v] = 0;
-//                continue;
-//            }
-
-            if ((!Qu[v].first) or (tent < g[v])) {
+            if ((!opened_indexes[v].first) ) {
 
                 parent[v] = current;
                 g[v] = tent;
                 f[v] = g[v] + h(v, goal_vert);
 
-                Q.push_back(v);
-                Qu[v] = make_pair(1, Q.size() - 1);
+                opened.push_back(v);
+                opened_indexes[v] = make_pair(1, opened.size() - 1);
             }
-
-
+            else{
+                if ( (tent < g[v])){
+                    parent[v] = current;
+                    g[v] = tent;
+                    f[v] = g[v] + h(v, goal_vert);
+                }
+            }
         }
 
     }
-
     return 0;
-
 }
 
 
-void a_star(Graph& G, UI start, UI goal, boost::numeric::ublas::matrix<UI>& h){
+UI a_star(Graph& G, UI start, UI goal, Eigen::Matrix<UI, Eigen::Dynamic, Eigen::Dynamic>& h){
+
     UI N = G.get_graph_size();
     vector<vector<ADJ_VERTEX>> adj = G.get_adj_list();
-    a_star_algo(adj, h, N, start, goal);
+
+    UI ans = a_star_algo(adj, h, N, start, goal);
+    return ans;
+
 }
 
 #endif //GRAPH_LAB_2_A_STAR_H
