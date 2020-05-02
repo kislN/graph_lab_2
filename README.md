@@ -9,7 +9,7 @@
   * [Bellman–Ford algorithm](https://github.com/kislN/graph_lab_2/blob/master/bellman-ford.h)
   * [Johnson's algorithm](https://github.com/kislN/graph_lab_2/blob/master/johnson.h)
   * [Floyd–Warshall algorithm](https://github.com/kislN/graph_lab_2/blob/master/floyd–warshall.h)
-  * [Matrix Maltiplication](https://github.com/kislN/graph_lab_2/blob/master/seidel.h)
+  * [Matrix Multiplication](https://github.com/kislN/graph_lab_2/blob/master/seidel.h)
 * structure of [the Graph](https://github.com/kislN/graph_lab_2/blob/master/Graph.h)
 * counting of [the connected components](https://github.com/kislN/graph_lab_2/blob/master/connected_comp.h)
 * [stress tests](https://github.com/kislN/graph_lab_2/blob/master/stress_tests.h)
