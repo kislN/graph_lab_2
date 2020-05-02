@@ -1,0 +1,21 @@
+Algorithm,NumVert,NumEdges,Iterations,Errors
+Seidel on undir unweig graphs,50,200,1000,0
+A star on undir graphs,50,200,1000,0
+Dijkstra on dir graphs,50,200,1000,0
+Dijkstra on undir graphs ,50,200,1000,0
+Bellman-Ford on dir graphs ,50,200,1000,0
+Bellman-Ford on undir graphs ,50,200,1000,0
+Johnson on dir graphs ,50,200,1000,0
+Johnson on undir graphs ,50,200,1000,0
+Floyd-Warshall on dir graphs ,50,200,1000,0
+Floyd_Warshall on undir graphs ,50,200,1000,0
+Seidel on undir unweig graphs,50,1000,1000,0
+A star on undir graphs,50,1000,1000,0
+Dijkstra on dir graphs,50,1000,1000,0
+Dijkstra on undir graphs ,50,1000,1000,0
+Bellman-Ford on dir graphs ,50,1000,1000,0
+Bellman-Ford on undir graphs ,50,1000,1000,0
+Johnson on dir graphs ,50,1000,1000,0
+Johnson on undir graphs ,50,1000,1000,0
+Floyd-Warshall on dir graphs ,50,1000,1000,0
+Floyd_Warshall on undir graphs ,50,1000,1000,0
